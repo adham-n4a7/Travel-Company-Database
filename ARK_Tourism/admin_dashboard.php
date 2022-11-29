@@ -62,7 +62,7 @@
         $cd_result = mysqli_query($conn, $cd_query);
 
         //getting booking_details data
-        $bch_query = "SELECT * FROM booking_details,users,hotels WHERE booking_details.user_id=users.user_id and booking_details.hotel_id=hotels.hotelid";
+        $bch_query = "SELECT * FROM booking_details,users,hotels,payment_details WHERE booking_details.user_id=users.user_id and booking_details.hotel_id=hotels.hotelid and booking_details.booking_id=payment_details.booking_id";
         $bch_result= mysqli_query($conn, $bch_query);
 
     ?>
@@ -254,28 +254,24 @@
                     <th>User Name</th>
                     <th>Hotel Name</th>
                     <th>Room Number</th>
+                    <th>No-of-Guests</th>
                     <th>Checkin-Date</th>
                     <th>Checkout-Date</th>
-                    <th>Date-of-Booking</th>
                     <th>Total Days</th>
+                    <th>Total Amount</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while ($cd_row = mysqli_fetch_array($cd_result)) { ?>
+                <?php while ($bch_row = mysqli_fetch_array($bch_result)) { ?>
                 <tr>
-                    <td><b><?php echo $cd_row['email_id']; ?></td>
-                    <td><?php echo $cd_row['cardholder_name']; ?></b></td>
-                    <td><?php echo $cd_row['card_number']; ?></td>
-                    <td><?php echo $cd_row['cvv']; ?></td>
-                    <td><?php echo $cd_row['expiry_date']; ?></td>
-
-                    <td><?php echo $u_row['customer_name']; ?></td>
-                    <td><?php echo $u_row['hotel_name']; ?></td>
-                    <td><?php echo $u_row['room_number']; ?></td>
-                    <td><?php echo $u_row['checkin_date']; ?></td>
-                    <td><?php echo $u_row['checkout_date']; ?></td>
-                    <td><?php echo $u_row['date_of_booking']; ?></td>
-                    <td><?php echo $u_row['total_days']; ?></td>
+                    <td><b><?php echo $bch_row['user_name']; ?></b></td>
+                    <td><?php echo $bch_row['hotel_name']; ?></td>
+                    <td><?php echo $bch_row['room_number']; ?></td>
+                    <td><?php echo $bch_row['number_of_guests']; ?></td>
+                    <td><?php echo $bch_row['checkin_date']; ?></td>
+                    <td><?php echo $bch_row['checkout_date']; ?></td>
+                    <td><?php echo $bch_row['total_days']; ?></td>
+                    <td>₹<?php echo $bch_row['amount_paid']; ?></td>
                 </tr>
                 <?php } ?>
             </tbody>
